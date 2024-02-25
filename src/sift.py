@@ -30,7 +30,6 @@ class SIFTImageComparator:
         descriptor_1 = descriptor_1.astype(np.float32)
         descriptor_2 = descriptor_2.astype(np.float32)
 
-
         # Match descriptors using FLANN matcher
         # https://docs.opencv.org/3.4/d5/d6f/tutorial_feature_flann_matcher.html
         matches = self.flann.knnMatch(descriptor_1, descriptor_2, k=neighbors)

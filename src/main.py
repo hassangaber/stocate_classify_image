@@ -1,5 +1,5 @@
 #!/usr/bin/env/ python3
-from typing import List,Dict,Tuple
+from typing import List, Dict, Tuple
 import numpy as np
 from utils import crop_image_to_aspect_ratio, transform_json_to_dict
 from sift import SIFTImageComparator
@@ -23,6 +23,7 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
     
     IMAGE=SIFT.read_image(image_path)
 
+    # if the image has cropped ROI's, crop the image and returned the cropped version
     if (crop_coordinates is not None) and (aspect_ratio is not None):
 
         top_left:tuple=crop_coordinates[0]
@@ -32,13 +33,9 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
                                                     bottom_right,
                                                     aspect_ratio)
     
+    # SIFT dictionaries to compare images
     (anchor_keyp, anchor_desc) = SIFT.generate_sift_pair(IMAGE)
     REFERENCE_DESCRIPTORS:Dict[str,dict] = transform_json_to_dict(json_path)
-
-    print(type(REFERENCE_DESCRIPTORS['Bio Quebec']['keypoints']))
-    print(type(REFERENCE_DESCRIPTORS['Bio Quebec']['descriptors']))
-    print(type(anchor_desc))
-
 
     # pair-wise comparison of descriptors,keypoints
     similarities:List[Tuple[str,float]]= [ (properties['type'], SIFT.compare(anchor_desc, 
@@ -47,6 +44,7 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
                                                                              properties['keypoints'])) 
                                             for _, properties in REFERENCE_DESCRIPTORS.items()]
     
+    # find the most similar badge
     most_similar_badge = max(similarities, key=lambda x: x[1])[0]
 
     return most_similar_badge
