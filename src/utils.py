@@ -3,12 +3,11 @@ from typing import List, Tuple
 import json
 import math
 
-def get_interesting_coordinates(coords: List[float], threshold:float=2.0) -> List[Tuple[float, float]]:
+def get_interesting_coordinates(coords: List[float], threshold:float=0.5) -> List[Tuple[float, float]]:
     """
     Find the top left and bottom right coordinates from a list of coordinates
     based on an image coordinate system with the origin at the top left corner.
     """
-    # Convert the flat list into a list of tuples for easier handling
     coordinate_pairs = [(coords[i], coords[i + 1]) for i in range(0, len(coords), 2)]
 
     # Initialize with the first pair to have something to compare with
