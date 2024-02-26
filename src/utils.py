@@ -98,7 +98,7 @@ def transform_json_to_dict(json_file_path:str)->dict:
     
     return transformed_dict
 
-def resize_image(image: np.ndarray, scale: float = 0.20) -> np.ndarray:
+def resize_image(image: np.ndarray, coords:List[float], scale: float = 0.95) -> Tuple[np.ndarray,List[float]]:
     """
     Resize the image by a percentage based on the float value (0.1 -> 10%).
     
@@ -117,7 +117,10 @@ def resize_image(image: np.ndarray, scale: float = 0.20) -> np.ndarray:
     # Resize the image
     resized_image = cv2.resize(image, new_dimensions, interpolation=cv2.INTER_AREA)
     print(f'Image resized from {image.shape} to {resized_image.shape}')
-    return resized_image
+
+    coords = [c*scale for c in coords]
+
+    return (resized_image, coords)
 
 
 

@@ -16,7 +16,7 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
         # CRAFT = CRAFTAutoCrop(output_dir=craft_output_dir)
         
         IMAGE=SIFT.read_image(image_path)
-        IMAGE=resize_image(IMAGE)
+        IMAGE, crop_coordinates=resize_image(IMAGE,crop_coordinates)
 
         # if the image has cropped ROI's, crop the image and returned the cropped version
         if (crop_coordinates is not None) and (aspect_ratio is not None):
