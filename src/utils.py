@@ -98,7 +98,7 @@ def transform_json_to_dict(json_file_path:str)->dict:
     
     return transformed_dict
 
-def resize_image(image: np.ndarray, coords:List[float], scale: float = 0.95) -> Tuple[np.ndarray,List[float]]:
+def resize_image(image: np.ndarray, coords:List[float], scale: float = 0.2) -> Tuple[np.ndarray,List[float]]:
     """
     Resize the image by a percentage based on the float value (0.1 -> 10%).
     
