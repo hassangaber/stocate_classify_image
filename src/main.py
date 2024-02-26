@@ -1,7 +1,7 @@
 #!/usr/bin/env/ python3
 from typing import List, Dict, Tuple, Union
 import numpy as np
-from utils import crop_image_to_aspect_ratio, transform_json_to_dict, get_interesting_coordinates
+from utils import crop_image_to_aspect_ratio, transform_json_to_dict, get_interesting_coordinates, resize_image
 from sift import SIFTImageComparator
 # from craft import CRAFTAutoCrop
 
@@ -11,11 +11,12 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
                           image_path:str, 
                           json_path:str='../environmental_labels_data.json',
                           craft_output_dir:str='data_craft/') -> Union[str, None]:
-    try:
+    # try:
         SIFT = SIFTImageComparator()
         # CRAFT = CRAFTAutoCrop(output_dir=craft_output_dir)
         
         IMAGE=SIFT.read_image(image_path)
+        IMAGE=resize_image(IMAGE)
 
         # if the image has cropped ROI's, crop the image and returned the cropped version
         if (crop_coordinates is not None) and (aspect_ratio is not None):
@@ -48,13 +49,13 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
 
         return most_similar_badge
         
-    except:
+    # except:
 
-        print('Python: CLASSIFY_BADGE_PYTHON returned None due to error encountered.')
-        return None
+    #     print('Python: CLASSIFY_BADGE_PYTHON returned None due to error encountered.')
+
+    #     return None
              
-
-
+             
 if __name__ == '__main__':
     PATH = '../data/certified-vegan.png'
 

@@ -2,6 +2,7 @@ import numpy as np
 from typing import List, Tuple
 import json
 import math
+import cv2
 
 def get_interesting_coordinates(coords: List[float], threshold:float=0.5) -> List[Tuple[float, float]]:
     """
@@ -96,6 +97,29 @@ def transform_json_to_dict(json_file_path:str)->dict:
             }
     
     return transformed_dict
+
+def resize_image(image: np.ndarray, scale: float = 0.20) -> np.ndarray:
+    """
+    Resize the image by a percentage based on the float value (0.1 -> 10%).
+    
+    Parameters:
+        image (np.ndarray): The input image to resize.
+        scale (float): The scaling factor for resizing the image.
+    
+    Returns:
+        np.ndarray: The resized image.
+    """
+    # Calculate the new dimensions
+    width = int(image.shape[1] * scale)
+    height = int(image.shape[0] * scale)
+    new_dimensions = (width, height)
+    
+    # Resize the image
+    resized_image = cv2.resize(image, new_dimensions, interpolation=cv2.INTER_AREA)
+    print(f'Image resized from {image.shape} to {resized_image.shape}')
+    return resized_image
+
+
 
 if __name__ == "__main__":
     l = [4.0, 0.0, 4.0, 2.0, 0.0, 0.0, 0.0, 2.0]
