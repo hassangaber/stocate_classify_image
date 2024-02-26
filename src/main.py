@@ -47,7 +47,7 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
         most_similar_badge = max(similarities, key=lambda x: x[1])[0]
 
         return most_similar_badge
-    
+        
     except:
 
         print('Python: CLASSIFY_BADGE_PYTHON returned None due to error encountered.')
@@ -58,8 +58,8 @@ def CLASSIFY_BADGE_PYTHON(crop_coordinates:List[float],
 if __name__ == '__main__':
     PATH = '../data/certified-vegan.png'
 
-    res = CLASSIFY_BADGE_PYTHON(crop_coordinates=None,
-                                aspect_ratio=None,
+    res = CLASSIFY_BADGE_PYTHON(crop_coordinates=[45.0, 0.0, 45.0, 25.0, 0.0, 0.0, 0.0, 25.0],
+                                aspect_ratio=[200, 100],
                                 image_path=PATH)
     
     print(res)

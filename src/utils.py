@@ -48,6 +48,8 @@ def crop_image_to_aspect_ratio(image:np.ndarray, top_left:tuple, bottom_right:tu
     
     # Calculate the current aspect ratio
     current_aspect_ratio = initial_width / initial_height
+
+    print(current_aspect_ratio)
     
     # Adjust the crop area to match the desired aspect ratio
     if current_aspect_ratio > aspect_ratio:
@@ -64,8 +66,8 @@ def crop_image_to_aspect_ratio(image:np.ndarray, top_left:tuple, bottom_right:tu
         top_left = (top_left[0], top_left[1] + height_reduction // 2)
         bottom_right = (bottom_right[0], bottom_right[1] - height_reduction // 2)
     
-    # Crop the image
-    cropped_image = image[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+
+    cropped_image = image[int(top_left[1]):int(bottom_right[1]), int(top_left[0]):int(bottom_right[0])]
     
     return cropped_image
 
