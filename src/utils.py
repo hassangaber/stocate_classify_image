@@ -1,5 +1,37 @@
 import numpy as np
+from typing import List, Tuple
 import json
+import math
+
+def get_interesting_coordinates(coords: List[float], threshold:float=2.0) -> List[Tuple[float, float]]:
+    """
+    Find the top left and bottom right coordinates from a list of coordinates
+    based on an image coordinate system with the origin at the top left corner.
+    """
+    # Convert the flat list into a list of tuples for easier handling
+    coordinate_pairs = [(coords[i], coords[i + 1]) for i in range(0, len(coords), 2)]
+
+    # Initialize with the first pair to have something to compare with
+    top_left = coordinate_pairs[0]
+    bottom_right = coordinate_pairs[0]
+
+    for x, y in coordinate_pairs[1:]:
+        # For top left, look for the smallest x and then the smallest y
+        if x < top_left[0] or (x == top_left[0] and y < top_left[1]):
+            top_left = (x, y)
+        
+        # For bottom right, look for the largest x and then the largest y
+        if x > bottom_right[0] or (x == bottom_right[0] and y > bottom_right[1]):
+            bottom_right = (x, y)
+    
+    distance = math.sqrt((bottom_right[0] - top_left[0])**2 + (bottom_right[1] - top_left[1])**2)
+    
+    # Threshold check
+    if distance < threshold:
+        raise ValueError("The selected points are too close to each other based on the given threshold.")
+
+    return [top_left, bottom_right]
+
 
 def crop_image_to_aspect_ratio(image:np.ndarray, top_left:tuple, bottom_right:tuple, aspect_ratio:float)->np.ndarray:
     """
@@ -63,3 +95,9 @@ def transform_json_to_dict(json_file_path:str)->dict:
             }
     
     return transformed_dict
+
+if __name__ == "__main__":
+    l = [4.0, 0.0, 4.0, 2.0, 0.0, 0.0, 0.0, 2.0]
+    # [1.0, 3.0, 4.0, 2.0, 2.5, 5.0, 3.5, 1.0]
+    print(get_interesting_coordinates(l, 2.0))
+
